@@ -1,13 +1,16 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors } from './src/theme/colors';
 import { SearchScreen } from './src/screens/SearchScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
 import { ProductDetailScreen } from './src/screens/ProductDetailScreen';
 import { FavoritesScreen } from './src/screens/FavoritesScreen';
+import { loadFonts, fontNames } from './src/utils/fonts';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,29 +19,34 @@ function SearchStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#3498db',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerShown: false, // Remove redundant headers
       }}
     >
       <Stack.Screen 
         name="SearchHome" 
         component={SearchScreen}
-        options={{ title: 'AI Product Advisor' }}
       />
       <Stack.Screen 
         name="Results" 
         component={ResultsScreen}
-        options={{ title: 'Recommendations' }}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: colors.text.white,
+          headerTitleStyle: { fontFamily: fontNames.dmSerifDisplay, fontSize: 24, marginBottom: 4 },
+          title: 'Recommendations'
+        }}
       />
       <Stack.Screen 
         name="ProductDetail" 
         component={ProductDetailScreen}
-        options={{ title: 'Product Details' }}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: colors.text.white,
+          headerTitleStyle: { fontFamily: fontNames.dmSerifDisplay, fontSize: 24, marginBottom: 4 },
+          title: 'Product Details'
+        }}
       />
     </Stack.Navigator>
   );
@@ -48,45 +56,78 @@ function FavoritesStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#3498db',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerShown: false, // Remove redundant headers
       }}
     >
       <Stack.Screen 
         name="FavoritesHome" 
         component={FavoritesScreen}
-        options={{ title: 'My Favorites' }}
       />
       <Stack.Screen 
         name="ProductDetail" 
         component={ProductDetailScreen}
-        options={{ title: 'Product Details' }}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: colors.text.white,
+          headerTitleStyle: { fontWeight: 'bold' },
+          title: 'Product Details'
+        }}
       />
     </Stack.Navigator>
   );
 }
 
+const LoadingScreen = () => (
+  <View style={styles.loadingContainer}>
+    <Text style={styles.loadingText}>Loading...</Text>
+  </View>
+);
+
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadAppFonts = async () => {
+      try {
+        await loadFonts();
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error('Font loading error:', error);
+        setFontsLoaded(true); // Continue anyway
+      }
+    };
+    loadAppFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: '#3498db',
-          tabBarInactiveTintColor: '#7f8c8d',
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.text.light,
           tabBarStyle: {
-            paddingBottom: 5,
-            paddingTop: 5,
-            height: 60,
+            backgroundColor: colors.background.card,
+            paddingBottom: 8,
+            paddingTop: 8,
+            height: 80,
+            borderTopWidth: 0,
+            shadowColor: colors.shadow.medium,
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 10,
           },
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '600',
+            marginTop: 2,
+            fontFamily: fontNames.dmSerifDisplay,
           },
           headerShown: false,
         }}
@@ -96,8 +137,12 @@ export default function App() {
           component={SearchStack}
           options={{
             tabBarLabel: 'Search',
-            tabBarIcon: ({ color }) => (
-              <Text style={{ fontSize: 24, color }}>🔍</Text>
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons 
+                name={focused ? "search" : "search-outline"} 
+                size={24} 
+                color={color} 
+              />
             ),
           }}
         />
@@ -106,8 +151,12 @@ export default function App() {
           component={FavoritesStack}
           options={{
             tabBarLabel: 'Favorites',
-            tabBarIcon: ({ color }) => (
-              <Text style={{ fontSize: 24, color }}>❤️</Text>
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons 
+                name={focused ? "heart" : "heart-outline"} 
+                size={24} 
+                color={color} 
+              />
             ),
           }}
         />
@@ -115,3 +164,16 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background.main,
+  },
+  loadingText: {
+    fontSize: 18,
+    color: colors.text.primary,
+  },
+});

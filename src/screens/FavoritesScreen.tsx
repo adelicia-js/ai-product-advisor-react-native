@@ -8,7 +8,10 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { colors, spacing, borderRadius, typography, elevation } from '../theme/colors';
 import { StorageService } from '../services/storageService';
 import { PRODUCT_CATALOG } from '../data/skus';
 import { Product } from '../types';
@@ -109,7 +112,8 @@ export const FavoritesScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient colors={colors.gradients.secondary} style={styles.container}>
+      <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Text style={styles.title}>My Favorites</Text>
         <Text style={styles.subtitle}>
@@ -130,31 +134,36 @@ export const FavoritesScreen = () => {
           onRefresh={loadFavorites}
         />
       )}
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    fontFamily: typography.fontFamily.primary,
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
     padding: 20,
+    paddingTop: 45,
     paddingBottom: 10,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#2c3e50',
-    marginBottom: 5,
+    fontSize: typography.fontSize.hero,
+    color: colors.text.primary,
+    fontFamily: typography.fontFamily.secondary,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#7f8c8d',
+    fontSize: typography.fontSize.md,
+    color: colors.text.light,
+    fontFamily: typography.fontFamily.extraLight,
   },
   listContent: {
     padding: 20,
@@ -181,27 +190,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   productName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2c3e50',
-    marginBottom: 4,
+    fontSize: typography.fontSize.xl,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
+    fontFamily: typography.fontFamily.primary,
   },
   brandText: {
-    fontSize: 14,
-    color: '#7f8c8d',
-    marginBottom: 2,
+    fontSize: typography.fontSize.md,
+    color: colors.text.secondary,
+    marginBottom: spacing.xs,
+    fontFamily: typography.fontFamily.primary,
   },
   categoryText: {
-    fontSize: 12,
-    color: '#95a5a6',
-    fontStyle: 'italic',
+    fontSize: typography.fontSize.sm,
+    color: colors.text.light,
+    fontFamily: typography.fontFamily.italic,
   },
   rightSection: {
     alignItems: 'flex-end',
   },
   priceText: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#27ae60',
     marginBottom: 8,
   },
@@ -231,39 +240,43 @@ const styles = StyleSheet.create({
   },
   stockText: {
     fontSize: 14,
-    fontWeight: '500',
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 40,
+    height: '100%',
   },
   emptyIcon: {
     fontSize: 64,
-    marginBottom: 20,
+    marginBottom: 5,
+    filter: 'grayscale(100%)',
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2c3e50',
-    marginBottom: 10,
+    fontSize: typography.fontSize.xxxl,
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
+    fontFamily: typography.fontFamily.extraLight,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#7f8c8d',
+    fontSize: typography.fontSize.md,
+    color: colors.text.secondary,
     textAlign: 'center',
-    marginBottom: 30,
+    fontFamily: typography.fontFamily.extraLight,
+    marginBottom: spacing.sm,
   },
   browseButton: {
-    backgroundColor: '#3498db',
-    paddingHorizontal: 30,
-    paddingVertical: 12,
-    borderRadius: 25,
+    experimental_backgroundImage: 'linear-gradient(90deg, #60f08634 0%, #6c9e3b7c 100%)',
+    paddingHorizontal: spacing.xxxl,
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.full,
+    ...elevation.md,
   },
   browseButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+    color: colors.text.white,
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semiBold,
+    fontFamily: typography.fontFamily.extraLight,
   },
 });
