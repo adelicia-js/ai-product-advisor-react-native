@@ -90,15 +90,21 @@ export const ProductDetailScreen = () => {
               style={styles.actionButton}
               onPress={toggleFavorite}
             >
-              <Text style={styles.actionButtonText}>
-                {isFavorite ? '❤️' : '🤍'}
-              </Text>
+              <Ionicons
+                name={isFavorite ? 'heart' : 'heart-outline'}
+                size={24}
+                color={isFavorite ? '#e74c3c' : '#7f8c8d'}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.actionButton}
               onPress={shareProduct}
             >
-              <Text style={styles.actionButtonText}>📤</Text>
+              <Ionicons
+                name="share-outline"
+                size={24}
+                color="#7f8c8d"
+              />
             </TouchableOpacity>
           </View>
         </View>
