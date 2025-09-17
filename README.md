@@ -1,9 +1,5 @@
 # Pickr AI 🛍️
 
-## 🎯 Live Demo
-
-- **Live App (Expo Go):** `exp://u.expo.dev/update/8bc73a13-7e4e-4881-85a4-7cc55f89557b`
-
 ## Overview
 
 Pickr AI is a React Native mobile application that leverages artificial intelligence to provide personalized product recommendations based on natural language queries. Users can describe their needs in plain English, and the app intelligently analyzes their requirements to suggest the most suitable products from a curated catalog of tech products.
