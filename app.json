@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "AI Product Advisor",
-    "slug": "product-advisor",
+    "name": "Pickr - AI Shopping Assistant",
+    "slug": "pickr",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "owner": "adelicia-js",
-    "description": "AI-powered shopping assistant to find your perfect tech products",
+    "description": "Pickr - AI-powered shopping assistant to find your perfect tech products",
     "platforms": [
       "ios",
       "android",
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.productadvisor.app"
+      "package": "com.pickr.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

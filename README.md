@@ -1,18 +1,29 @@
-# AI Product Advisor - React Native Application
+# Pickr AI 🛍️
+
+## 🎯 Live Demo
+
+- **Live App (Expo Go):** `exp://u.expo.dev/update/8bc73a13-7e4e-4881-85a4-7cc55f89557b`
 
 ## Overview
 
-AI Product Advisor is a React Native mobile application that leverages artificial intelligence to provide personalized product recommendations based on natural language queries. Users can describe their needs in plain English, and the app intelligently analyzes their requirements to suggest the most suitable products from a comprehensive catalog.
+Pickr AI is a React Native mobile application that leverages artificial intelligence to provide personalized product recommendations based on natural language queries. Users can describe their needs in plain English, and the app intelligently analyzes their requirements to suggest the most suitable products from a curated catalog of tech products.
 
-## Features
+## ✨ Features
 
+### Core Functionality
 - **Natural Language Search**: Describe what you're looking for in plain English
 - **AI-Powered Recommendations**: Intelligent product matching using Google Gemini API
-- **Detailed Explanations**: Understand why each product was recommended
+- **Smart Relevance Scoring**: Visual indicators showing match quality (90%+, 75%+, etc.)
 - **Search History**: Keep track of previous searches for quick access
-- **Favorites System**: Save products for later reference
+- **Favorites System**: Save products for later reference (persisted locally)
 - **Product Details**: Comprehensive view of product specifications and features
-- **Relevance Scoring**: See how well each product matches your needs
+
+### UI/UX Highlights
+- 🎨 **Modern Design**: Gradient-based theme with pink/purple color scheme
+- ✨ **Animated Splash Screen**: Professional loading experience with brand animations
+- 📱 **Cross-Platform**: Works on iOS, Android, and Web
+- 🔄 **Smooth Transitions**: Native navigation with gesture support
+- 💾 **Offline Support**: Favorites and history work without internet
 
 ## Architecture
 
@@ -86,75 +97,156 @@ product-advisor/
 └── README.md                   # Project documentation
 ```
 
-## Setup Instructions
+## 🚀 Getting Started
 
-1. **Install Dependencies**
+### Prerequisites
+- Node.js 18+ and npm
+- Expo Go app on your phone
+- Git
+
+### Installation
+
+1. **Clone the Repository**
    ```bash
+   git clone https://github.com/adelicia-js/product-advisor.git
    cd product-advisor
+   ```
+
+2. **Install Dependencies**
+   ```bash
    npm install
    ```
 
-2. **Configure AI Service**
-   - The app is configured with a Google Gemini API key
-   - If the API fails, the app will automatically fallback to intelligent mock recommendations
-
-3. **Run the Application**
+3. **Set Up Environment Variables**
    ```bash
-   # For Expo Go
-   npm start
-   
-   # For iOS
-   npm run ios
-   
-   # For Android
-   npm run android
-   
-   # For Web
-   npm run web
+   # Create .env file
+   cp .env.example .env
+   # Add your Gemini API key (optional - app has fallback)
    ```
 
-## Product Catalog
+4. **Run the Application**
+   ```bash
+   # Start development server
+   npx expo start
 
-The app includes a comprehensive catalog of 46 products across 14 categories:
-- **Technology**: Laptops, Smartphones, Tablets, Cameras
-- **Audio**: Headphones, Speakers, Soundbars
-- **Smart Home**: Voice assistants, Smart lighting, Thermostats
-- **Gaming**: Consoles, Gaming laptops
-- **Fitness**: Exercise equipment, Smart fitness devices
-- **Office**: Ergonomic furniture, Monitors
-- **Kitchen**: Premium appliances
-- **Travel & Outdoor**: Luggage, Outdoor gear
+   # Specific platforms
+   npx expo start --ios      # iOS Simulator
+   npx expo start --android  # Android Emulator
+   npx expo start --web      # Web Browser
+   ```
 
-## Technologies Used
+## 📦 Building for Production
 
-- **React Native**: Cross-platform mobile development
-- **TypeScript**: Type-safe code with better IDE support
-- **Expo**: Simplified React Native development and deployment
-- **React Navigation**: Native navigation experience
-- **AsyncStorage**: Local data persistence
-- **Google Gemini API**: Advanced AI for natural language processing
+### Create Standalone APK (Android)
+```bash
+# Build APK for distribution
+eas build --platform android --profile preview
 
-## Testing Recommendations
+# The build will be queued on Expo servers (free)
+# Takes approximately 10-20 minutes
+# You'll receive a download link when complete
+```
 
-Try these example queries to explore the app's capabilities:
-- "I need a lightweight laptop for travel with long battery life"
-- "Best noise-cancelling headphones under $400"
+### Publish Updates (Expo Go)
+```bash
+# Push updates to existing users
+eas update --branch preview --message "Update description"
+```
+
+## 📱 Product Catalog
+
+The app includes a comprehensive catalog of 46 tech products across multiple categories:
+- **Laptops**: MacBook Air, Dell XPS, ThinkPad, HP Spectre, ASUS ROG
+- **Smartphones**: iPhone 15 Pro, Samsung Galaxy S24, Google Pixel 8
+- **Audio**: AirPods Pro, Sony WH-1000XM5, Bose QuietComfort
+- **Tablets**: iPad Pro, Samsung Galaxy Tab, Surface Pro
+- **Smart Home**: Echo Dot, Nest Hub, Philips Hue
+- **Gaming**: PlayStation 5, Xbox Series X, Nintendo Switch, Steam Deck
+- **Wearables**: Apple Watch, Samsung Galaxy Watch, Garmin Fenix
+- **And More**: Cameras, Kitchen Appliances, Office Equipment, Fitness Gear
+
+## 🛠️ Tech Stack
+
+### Core Technologies
+- **React Native 0.81.4**: Cross-platform mobile development
+- **Expo SDK 54**: Managed workflow with OTA updates
+- **TypeScript 5.9**: Type-safe code with full IntelliSense
+- **React 19.1**: Latest React features and hooks
+
+### Key Libraries
+- **React Navigation**: Stack & Tab navigation with gesture support
+- **Expo Linear Gradient**: Beautiful gradient backgrounds
+- **AsyncStorage**: Persistent local storage
+- **React Native Safe Area Context**: Device-safe layouts
+- **Expo Vector Icons**: Ionicons for UI elements
+
+### AI Integration
+- **Google Gemini 1.5 Flash**: Natural language processing
+- **Fallback System**: Intelligent mock responses when offline
+
+### Development Tools
+- **EAS Build**: Cloud-based app building
+- **Babel**: Modern JavaScript transpilation
+- **Metro**: Fast JavaScript bundler
+
+## 🧪 Testing the App
+
+### Example Queries to Try
+- "Looking for a lightweight laptop for programming"
+- "Need noise-canceling headphones for work"
+- "Best smartphone with great camera under $1000"
+- "Smart watch for fitness tracking and notifications"
+- "Tablet for digital art and note-taking"
 - "Gaming console for family entertainment"
-- "Smart home devices for beginners"
-- "Professional camera for photography"
 
-## Future Enhancements
+### How to Access
+- Install Expo Go from App Store/Play Store
+- Open link: `exp://u.expo.dev/update/8bc73a13-7e4e-4881-85a4-7cc55f89557b`
 
-- Image recognition for visual product search
-- Voice input for hands-free searching
-- Price tracking and alerts
-- Comparison feature for multiple products
-- User reviews and ratings integration
-- Personalized recommendations based on search history
+## 🎨 Design Philosophy
 
-## Development Notes
+- **Gradient-First**: Pink/purple gradients create visual hierarchy
+- **Typography Mix**: DMSerif Display for headers, Inter for body text
+- **Card-Based Layout**: Easy scanning on mobile devices
+- **Visual Feedback**: Loading animations and state transitions
+- **Accessibility**: High contrast text, clear touch targets
 
-- The app gracefully handles API failures with fallback to mock data
-- Search history is limited to 20 most recent queries
-- All product data is stored locally for offline access
-- The UI is optimized for both iOS and Android platforms
+## 📂 Project Structure
+
+```
+product-advisor/
+├── src/
+│   ├── screens/          # App screens (Search, Results, etc.)
+│   ├── components/       # Reusable components
+│   ├── services/         # API and storage services
+│   ├── data/            # Product catalog
+│   ├── theme/           # Colors, typography, spacing
+│   ├── types/           # TypeScript interfaces
+│   └── utils/           # Helper functions
+├── assets/              # Images and fonts
+├── App.tsx             # Main app with navigation
+├── app.json            # Expo configuration
+├── eas.json            # EAS Build config
+└── babel.config.js     # Babel configuration
+```
+
+## 🔑 Environment Variables
+
+```env
+# .env file
+GEMINI_API_KEY=your_api_key_here  # Optional - app has fallback
+```
+
+## ⚠️ Important Disclaimer
+
+**This is a frontend demonstration project showcasing React Native and UI/UX development skills.**
+
+The app does **NOT** support:
+- Real payment processing or purchases
+- Actual product ordering
+- Backend order management
+- User authentication/accounts
+- Live inventory tracking
+- Real transactions of any kind
+
+All products and prices are for demonstration purposes only.

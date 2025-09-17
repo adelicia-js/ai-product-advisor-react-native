@@ -100,7 +100,7 @@ export const SplashScreen = () => {
               <Ionicons name="sparkles" size={60} color={colors.text.white} />
             </Animated.View>
           </View>
-          <Text style={styles.title}>Product Advisor</Text>
+          <Text style={styles.title}>Pickr AI</Text>
         </Animated.View>
 
         <Animated.View
@@ -187,6 +187,8 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     zIndex: 1,
+    paddingHorizontal: spacing.lg,
+    width: '100%',
   },
   logoContainer: {
     alignItems: 'center',
@@ -204,13 +206,17 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   title: {
-    fontSize: typography.fontSize.display,
+    fontSize: 28,
     fontFamily: typography.fontFamily.secondary,
     color: colors.text.white,
-    letterSpacing: 1,
+    letterSpacing: 0.5,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
+    textAlign: 'center',
+    flexShrink: 1,
+    maxWidth: '90%',
+    lineHeight: 32,
   },
   taglineContainer: {
     alignItems: 'center',

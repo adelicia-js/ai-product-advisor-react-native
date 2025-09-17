@@ -124,9 +124,9 @@ export const SearchScreen = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.header}>
-            <Text style={styles.title}>AI Product Advisor</Text>
+            <Text style={styles.title}>Pickr AI</Text>
             <Text style={styles.subtitle}>
-              Describe what you're looking for in plain English
+               Smart shopping made simple
             </Text>
           </View>
 
@@ -318,8 +318,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     lineHeight: 20,
   },
-  historyContainer: {
-  },
+  historyContainer: {},
   historyHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
