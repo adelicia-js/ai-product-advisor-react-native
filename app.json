@@ -1,12 +1,19 @@
 {
   "expo": {
-    "name": "product-advisor",
+    "name": "AI Product Advisor",
     "slug": "product-advisor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "owner": "adelicia-js",
+    "description": "AI-powered shopping assistant to find your perfect tech products",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -20,7 +27,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.productadvisor.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,6 +36,17 @@
     "plugins": [
       "expo-asset",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "92b5e60f-523e-489c-9d9c-49a5e7387bbf"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/92b5e60f-523e-489c-9d9c-49a5e7387bbf"
+    }
   }
 }
