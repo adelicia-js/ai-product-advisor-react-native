@@ -10,6 +10,7 @@ import { SearchScreen } from './src/screens/SearchScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
 import { ProductDetailScreen } from './src/screens/ProductDetailScreen';
 import { FavoritesScreen } from './src/screens/FavoritesScreen';
+import { SplashScreen } from './src/screens/SplashScreen';
 import { loadFonts, fontNames } from './src/utils/fonts';
 
 const Stack = createStackNavigator();
@@ -78,30 +79,32 @@ function FavoritesStack() {
   );
 }
 
-const LoadingScreen = () => (
-  <View style={styles.loadingContainer}>
-    <Text style={styles.loadingText}>Loading...</Text>
-  </View>
-);
-
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const loadAppFonts = async () => {
       try {
         await loadFonts();
         setFontsLoaded(true);
+        // Keep splash screen for a bit longer for smooth transition
+        setTimeout(() => {
+          setShowSplash(false);
+        }, 2500);
       } catch (error) {
         console.error('Font loading error:', error);
-        setFontsLoaded(true); // Continue anyway
+        setFontsLoaded(true);
+        setTimeout(() => {
+          setShowSplash(false);
+        }, 2500);
       }
     };
     loadAppFonts();
   }, []);
 
-  if (!fontsLoaded) {
-    return <LoadingScreen />;
+  if (!fontsLoaded || showSplash) {
+    return <SplashScreen />;
   }
 
   return (

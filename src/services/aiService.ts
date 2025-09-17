@@ -1,9 +1,8 @@
 import axios from "axios";
-import { Product, AIResponse, AIRecommendation } from "../types";
-import { PRODUCT_CATALOG } from "../data/skus";
+import { AIResponse, AIRecommendation } from "../types";
+import { Product, PRODUCT_CATALOG } from "../data/products";
+import { GEMINI_API_KEY } from '@env';
 
-// You'll need to add your Gemini API key here
-const GEMINI_API_KEY = "AIzaSyDu6vNC3irtM7Gv1806oNYqHCQPXpWE8Yw";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // Simple in-memory cache for API responses
@@ -75,11 +74,12 @@ export class AIService {
   private static createPrompt(userQuery: string, products: Product[]): string {
     const productList = products.map((p) => ({
       id: p.id,
-      name: p.product_name,
+      name: p.name,
       brand: p.brand,
       category: p.category,
       price: p.price,
       description: p.description,
+      features: p.features,
     }));
 
     return `You are an AI product advisor. Analyze the user's query and recommend the most suitable products from the provided catalog.
@@ -128,228 +128,272 @@ Response Format (JSON only):
     let recommendations: AIRecommendation[] = [];
     let queryAnalysis = "";
 
-    // New catalog categories: Healthtech, Personal Care, Entertainment, Kitchen, Home Improvement, Travel, Mobility, Security
+    // Match with actual tech product catalog
     if (
-      query.includes("health") ||
-      query.includes("massage") ||
-      query.includes("pain")
+      query.includes("laptop") ||
+      query.includes("programming") ||
+      query.includes("coding") ||
+      query.includes("development")
     ) {
-      queryAnalysis = "User is looking for health and wellness products.";
+      queryAnalysis = "User is looking for a laptop suitable for programming and development work.";
       recommendations = [
         {
-          product_id: "0",
-          relevance_score: 90,
+          product_id: "1",
+          relevance_score: 95,
           reasoning:
-            "CURAPOD provides adaptive pain management with advanced technology for personalized therapy.",
+            "MacBook Air M2 offers excellent performance for programming with long battery life and lightweight design.",
           key_features: [
-            "Pain relief",
-            "Adaptive therapy",
-            "Targeted treatment",
+            "M2 chip performance",
+            "18-hour battery",
+            "Lightweight at 2.7 lbs",
           ],
         },
         {
-          product_id: "5",
-          relevance_score: 85,
+          product_id: "3",
+          relevance_score: 90,
           reasoning:
-            "Charge Boost Massage Gun helps with muscle recovery and pain relief.",
+            "ThinkPad X1 Carbon is a business-class laptop with excellent keyboard and durability for long coding sessions.",
           key_features: [
-            "Muscle recovery",
-            "Multiple attachments",
-            "Deep massage",
+            "Military-grade durability",
+            "15-hour battery",
+            "1TB SSD storage",
           ],
         },
         {
           product_id: "2",
-          relevance_score: 80,
-          reasoning:
-            "Neck Massager relieves tension with multiple modes and heat therapy.",
-          key_features: ["Neck relief", "Heat therapy", "Multiple modes"],
-        },
-      ];
-    } else if (
-      query.includes("travel") ||
-      query.includes("luggage") ||
-      query.includes("backpack")
-    ) {
-      queryAnalysis =
-        "User is looking for travel accessories and luggage solutions.";
-      recommendations = [
-        {
-          product_id: "36",
-          relevance_score: 95,
-          reasoning:
-            "ARISTA VAULT Smart Back Pack with built-in power bank and anti-theft design, perfect for travel.",
-          key_features: [
-            "Built-in power bank",
-            "Anti-theft design",
-            "Smart features",
-          ],
-        },
-        {
-          product_id: "37",
-          relevance_score: 90,
-          reasoning:
-            "Jarviz Follow-me luggage is a revolutionary smart suitcase that follows you hands-free.",
-          key_features: [
-            "Follows you",
-            "Smart technology",
-            "Hands-free travel",
-          ],
-        },
-        {
-          product_id: "35",
           relevance_score: 85,
           reasoning:
-            "Wallet Bot Classic keeps your valuables safe with GPS tracking and anti-theft features.",
-          key_features: ["GPS tracking", "Anti-theft", "Smart wallet"],
-        },
-      ];
-    } else if (
-      query.includes("camera") ||
-      query.includes("security") ||
-      query.includes("surveillance")
-    ) {
-      queryAnalysis =
-        "User is interested in security cameras or surveillance equipment.";
-      recommendations = [
-        {
-          product_id: "47",
-          relevance_score: 92,
-          reasoning:
-            "EZVIZ Indoor PT H6C Pro offers 4MP pan-and-tilt camera with night vision for complete home monitoring.",
-          key_features: ["4MP resolution", "Pan and tilt", "Night vision"],
-        },
-        {
-          product_id: "42",
-          relevance_score: 88,
-          reasoning:
-            "PandaX Wi-Fi Video Doorbell lets you see and speak to visitors from anywhere.",
-          key_features: [
-            "Two-way audio",
-            "Motion detection",
-            "Wi-Fi connected",
-          ],
-        },
-        {
-          product_id: "52",
-          relevance_score: 85,
-          reasoning:
-            "Qubo Dash Cam Pro captures every detail of your journey with advanced safety features.",
-          key_features: [
-            "High-quality video",
-            "Safety features",
-            "Dashboard camera",
-          ],
+            "Dell XPS 13 provides powerful performance in a compact form factor perfect for developers on the go.",
+          key_features: ["Intel Core i7", "16GB RAM", "512GB SSD"],
         },
       ];
     } else if (
       query.includes("headphone") ||
-      query.includes("music") ||
-      query.includes("gaming")
+      query.includes("noise") ||
+      query.includes("work") ||
+      query.includes("music")
     ) {
       queryAnalysis =
-        "User is looking for audio equipment for music or gaming.";
+        "User needs headphones for work or music with noise cancellation features.";
       recommendations = [
         {
-          product_id: "10",
-          relevance_score: 93,
+          product_id: "11",
+          relevance_score: 95,
           reasoning:
-            "LEAF Bass Headphones deliver deep, powerful bass perfect for music lovers and gamers.",
-          key_features: ["Deep bass", "Over-ear comfort", "Music and gaming"],
-        },
-        {
-          product_id: "17",
-          relevance_score: 88,
-          reasoning:
-            "bt Blaze Wired Gaming Headphones offer crystal-clear audio for competitive gaming.",
+            "Sony WH-1000XM5 offers industry-leading noise cancellation perfect for focused work and music enjoyment.",
           key_features: [
-            "Gaming optimized",
-            "Crystal-clear audio",
-            "Comfortable design",
+            "Best-in-class ANC",
+            "30-hour battery",
+            "Multipoint connection",
           ],
         },
         {
-          product_id: "13",
+          product_id: "12",
+          relevance_score: 90,
+          reasoning:
+            "Bose QuietComfort 45 provides legendary comfort for all-day wear with excellent noise cancellation.",
+          key_features: [
+            "Legendary comfort",
+            "24-hour battery",
+            "Clear calls",
+          ],
+        },
+        {
+          product_id: "10",
           relevance_score: 85,
           reasoning:
-            "HAMMER BeatBox Bluetooth Soundbar delivers rich immersive sound for entertainment.",
+            "AirPods Pro 2 offers premium wireless experience with active noise cancellation in a compact form.",
+          key_features: ["Active noise cancellation", "Spatial audio", "MagSafe charging"],
+        },
+      ];
+    } else if (
+      query.includes("smartphone") ||
+      query.includes("phone") ||
+      query.includes("camera") ||
+      query.includes("photo")
+    ) {
+      queryAnalysis =
+        "User is looking for a smartphone with emphasis on camera quality.";
+      recommendations = [
+        {
+          product_id: "8",
+          relevance_score: 95,
+          reasoning:
+            "Google Pixel 8 Pro features exceptional computational photography with AI-powered camera features.",
           key_features: [
-            "Bluetooth connectivity",
-            "Rich sound",
-            "Movies and music",
+            "Best-in-class camera",
+            "Magic Eraser",
+            "Pure Android",
+          ],
+        },
+        {
+          product_id: "6",
+          relevance_score: 92,
+          reasoning:
+            "iPhone 15 Pro offers advanced camera system with ProRAW and ProRes video capabilities.",
+          key_features: [
+            "48MP camera",
+            "ProMotion display",
+            "Titanium build",
+          ],
+        },
+        {
+          product_id: "7",
+          relevance_score: 88,
+          reasoning:
+            "Samsung Galaxy S24 Ultra features a 200MP camera with S Pen for creative control.",
+          key_features: [
+            "200MP camera",
+            "S Pen included",
+            "6.8-inch display",
           ],
         },
       ];
     } else if (
-      query.includes("robot") ||
-      query.includes("vacuum") ||
-      query.includes("clean")
+      query.includes("watch") ||
+      query.includes("fitness") ||
+      query.includes("health") ||
+      query.includes("tracking")
     ) {
       queryAnalysis =
-        "User is interested in robot vacuums or cleaning devices.";
+        "User wants a smartwatch for fitness tracking and health monitoring.";
       recommendations = [
         {
-          product_id: "26",
-          relevance_score: 90,
+          product_id: "17",
+          relevance_score: 94,
           reasoning:
-            "MecTURING LASERON S9 Pro Plus ADC offers smart navigation with powerful suction.",
+            "Apple Watch Series 9 provides comprehensive health tracking with ECG and blood oxygen monitoring.",
+          key_features: ["Blood oxygen monitoring", "ECG", "GPS"],
+        },
+        {
+          product_id: "19",
+          relevance_score: 92,
+          reasoning:
+            "Garmin Fenix 7 is perfect for serious athletes with advanced training metrics and solar charging.",
           key_features: [
-            "Smart navigation",
-            "Powerful suction",
-            "Advanced cleaning",
+            "18-day battery",
+            "Solar charging",
+            "Advanced training metrics",
           ],
         },
         {
-          product_id: "29",
-          relevance_score: 88,
+          product_id: "18",
+          relevance_score: 87,
           reasoning:
-            "ILIFE T20s Pro provides superior cleaning with powerful suction and mopping capabilities.",
+            "Samsung Galaxy Watch 6 offers body composition analysis and comprehensive sleep tracking.",
+          key_features: ["Body composition", "Sleep tracking", "40-hour battery"],
+        },
+      ];
+    } else if (
+      query.includes("tablet") ||
+      query.includes("ipad") ||
+      query.includes("draw") ||
+      query.includes("note")
+    ) {
+      queryAnalysis =
+        "User needs a tablet for creative work or note-taking.";
+      recommendations = [
+        {
+          product_id: "14",
+          relevance_score: 95,
+          reasoning:
+            "iPad Pro 12.9 with M2 chip offers professional-grade performance with Apple Pencil support for digital art.",
           key_features: [
-            "Vacuum and mop",
-            "Powerful suction",
-            "Smart features",
+            "M2 chip",
+            "Liquid Retina XDR",
+            "Apple Pencil support",
+          ],
+        },
+        {
+          product_id: "15",
+          relevance_score: 90,
+          reasoning:
+            "Samsung Galaxy Tab S9 Ultra features large AMOLED display with included S Pen for productivity.",
+          key_features: [
+            "14.6-inch AMOLED",
+            "S Pen included",
+            "Water resistant",
+          ],
+        },
+        {
+          product_id: "16",
+          relevance_score: 85,
+          reasoning:
+            "Microsoft Surface Pro 9 runs full Windows 11 for complete desktop experience in tablet form.",
+          key_features: ["Full Windows 11", "Type Cover compatible", "Surface Pen support"],
+        },
+      ];
+    } else if (
+      query.includes("gaming") ||
+      query.includes("game") ||
+      query.includes("console") ||
+      query.includes("play")
+    ) {
+      queryAnalysis =
+        "User is interested in gaming consoles or gaming equipment.";
+      recommendations = [
+        {
+          product_id: "27",
+          relevance_score: 92,
+          reasoning:
+            "PlayStation 5 offers next-gen gaming with ray tracing and ultra-fast SSD for incredible performance.",
+          key_features: [
+            "4K gaming",
+            "Ray tracing",
+            "DualSense controller",
           ],
         },
         {
           product_id: "28",
-          relevance_score: 85,
+          relevance_score: 90,
           reasoning:
-            "ILIFE A20 offers advanced mapping and scheduling for customized cleaning.",
-          key_features: ["Advanced mapping", "Scheduling", "Robotic cleaning"],
+            "Xbox Series X provides powerful 4K gaming with Game Pass for access to hundreds of games.",
+          key_features: [
+            "120fps support",
+            "Game Pass",
+            "Quick Resume",
+          ],
+        },
+        {
+          product_id: "30",
+          relevance_score: 88,
+          reasoning:
+            "Steam Deck lets you play your entire Steam library portably with PC gaming power.",
+          key_features: ["Portable PC gaming", "Steam library", "Expandable storage"],
         },
       ];
     } else {
       // Default recommendations for general queries
-      queryAnalysis = "Here are some popular products from our catalog.";
+      queryAnalysis = "Here are some popular products from our catalog that might interest you.";
       recommendations = [
         {
-          product_id: "0",
-          relevance_score: 80,
+          product_id: "1",
+          relevance_score: 85,
           reasoning:
-            "CURAPOD adaptive pain management device uses advanced technology for personalized therapy.",
+            "MacBook Air M2 is a versatile laptop perfect for everyday computing and creative work.",
           key_features: [
-            "Pain relief",
-            "Advanced technology",
-            "Personalized therapy",
+            "M2 chip",
+            "All-day battery",
+            "Lightweight design",
+          ],
+        },
+        {
+          product_id: "6",
+          relevance_score: 82,
+          reasoning:
+            "iPhone 15 Pro is a premium smartphone with advanced features for productivity and entertainment.",
+          key_features: [
+            "A17 Pro chip",
+            "ProMotion display",
+            "5G connectivity",
           ],
         },
         {
           product_id: "11",
-          relevance_score: 78,
+          relevance_score: 80,
           reasoning:
-            "Halo Smart Ring tracks fitness and sleep patterns with a sleek design.",
-          key_features: [
-            "Fitness tracking",
-            "Sleep monitoring",
-            "Discreet design",
-          ],
-        },
-        {
-          product_id: "22",
-          relevance_score: 75,
-          reasoning:
-            "upliance.ai AI Cooking Assistant simplifies cooking with automated guidance.",
-          key_features: ["AI-powered", "Recipe guidance", "Automated cooking"],
+            "Sony WH-1000XM5 headphones deliver exceptional audio quality for any listening experience.",
+          key_features: ["Premium sound", "Noise cancellation", "30-hour battery"],
         },
       ];
     }

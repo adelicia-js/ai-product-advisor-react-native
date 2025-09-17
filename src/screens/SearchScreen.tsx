@@ -25,6 +25,7 @@ import {
 import { AIService } from "../services/aiService";
 import { StorageService } from "../services/storageService";
 import { SearchQuery } from "../types";
+import { AnimatedLoader } from "../components/AnimatedLoader";
 
 export const SearchScreen = () => {
   const navigation = useNavigation<any>();
@@ -102,11 +103,11 @@ export const SearchScreen = () => {
   };
 
   const suggestionExamples = [
-    "I need a massage device for back pain",
-    "Best robot vacuum cleaner for home",
-    "Smart security camera for my house",
-    "Portable hair dryer for travel",
-    "Gaming headphones under ₹2000",
+    "Looking for a lightweight laptop for programming",
+    "Need noise-canceling headphones for work",
+    "Best smartphone with great camera under $1000",
+    "Smart watch for fitness tracking and notifications",
+    "Tablet for digital art and note-taking",
   ];
 
   return (
@@ -155,10 +156,7 @@ export const SearchScreen = () => {
                 style={styles.searchButton}
               >
                 {loading ? (
-                  <View style={styles.loadingContainer}>
-                    <ActivityIndicator color="#fff" size="small" />
-                    <Text style={styles.loadingText}>Analyzing. . .</Text>
-                  </View>
+                  <AnimatedLoader />
                 ) : (
                   <View style={styles.buttonContent}>
                     <Ionicons

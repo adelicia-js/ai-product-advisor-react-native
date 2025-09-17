@@ -5,8 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
@@ -37,7 +37,7 @@ export const ResultsScreen = () => {
   const { query, recommendations, queryAnalysis } = route.params;
 
   const getProduct = (productId: string) => {
-    return PRODUCT_CATALOG[parseInt(productId)];
+    return PRODUCT_CATALOG.find(p => p.id === productId);
   };
 
   const getRelevanceColor = (score: number) => {
@@ -105,7 +105,7 @@ export const ResultsScreen = () => {
                     </View>
                     <View style={styles.productInfo}>
                       <Text style={styles.productName}>
-                        {product.product_name}
+                        {product.name}
                       </Text>
                       <Text style={styles.brandText}>{product.brand}</Text>
                     </View>
